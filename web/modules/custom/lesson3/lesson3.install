@@ -1,0 +1,197 @@
+<?php
+
+/**
+ * @file
+ * Install, update, hook_schema and uninstall functions for the lesson3 module.
+ */
+
+use Drupal\Component\Serialization\Json;
+
+/**
+ * Implements hook_schema().
+ *
+ * Defines the database tables used by this module.
+ *
+ * @see hook_schema()
+ *
+ * @ingroup lesson3
+ */
+function lesson3_schema() {
+  $schema['lesson3_keywords'] = [
+    'description' => 'Stores data for lesson3.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique ID.',
+      ],
+      'entity_id' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => "Entity ID.",
+      ],
+      'entity_vid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => "Entity vid.",
+      ],
+      'is_major' => [
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => "Entity vid.",
+      ],
+      'rank' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => "Entity vid.",
+      ],
+      'name' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Name.',
+      ],
+      'value' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Value.',
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'name' => ['name'],
+    ],
+  ];
+
+  return $schema;
+}
+
+/**
+ * Creates two news from json data.
+ */
+function lesson3_update_8001() {
+  $json_news_data = lesson3_return_json();
+  $json_news_data = preg_replace("/\r|\n/", "", $json_news_data);
+  $news_data = Json::decode($json_news_data);
+  $nytimes_news_service = \Drupal::service('lesson3.nytimes_news');
+  foreach ($news_data as $news_data_item) {
+    $nytimes_news_service->createNewsEntity($news_data_item);
+  }
+}
+
+/**
+ * Returns json string.
+ */
+function lesson3_return_json(): string {
+  return '[{
+"web_url": "https://www.nytimes.com/aponline/2017/11/10/us/ap-us-police-highway-shooting.html",
+"snippet": "Authorities say no weapons were found in a white pickup truck involved in a deadly
+police shooting on Interstate 95 in Rhode Island.",
+"blog": {},
+"source": "AP",
+"multimedia": [],
+"headline": {
+"main": "Police: No Weapons Found in Truck Police Shot on I-95",
+"print_headline": "Police: No Weapons Found in Truck Police Shot on I-95"
+},
+"keywords": [
+{
+"isMajor": "N",
+"rank": 3,
+"name": "subject",
+"value": "Steel and Iron"
+},
+{
+"isMajor": "N",
+"rank": 4,
+"name": "organizations",
+"value": "Kobe Steel Limited"
+},
+{
+"isMajor": "N",
+"rank": 5,
+"name": "glocations",
+"value": "Japan"
+}
+],
+"pub_date": "2017-11-10T13:36:42+0000",
+"document_type": "article",
+"new_desk": "None",
+"byline": {
+"original": "By THE ASSOCIATED PRESS"
+},
+"type_of_material": "News",
+"_id": "5a05ab727c459f246b633bc3",
+"word_count": 133,
+"score": 1,
+"uri": "nyt://article/930c9ee5-30d4-5c67-94eb-d4599e37dbbe"
+},
+{
+"web_url": "https://www.nytimes.com/reuters/2017/11/10/world/middleeast/10reuters-saudi-arrestsusa.
+html",
+"snippet": "Saudi Arabia\'s Crown Prince Mohammed bin Salman\'s recent political purge raises
+concerns and remains unclear but does not appear to amount to mass arrests, U.S. Secretary of State Rex
+Tillerson told reporters on Friday. ",
+"blog": {},
+"source": "Reuters",
+"multimedia": [],
+"headline": {
+"main": "U.S.\'s Tillerson Concerned Over Saudi Purge, Monitoring Hariri Situation",
+"print_headline": "U.S.\'s Tillerson Concerned Over Saudi Purge, Monitoring Hariri Situation"
+},
+"keywords": [
+{
+"isMajor": "N",
+"rank": 1,
+"name": "subject",
+"value": "Product Tests"
+},
+{
+"isMajor": "N",
+"rank": 2,
+"name": "subject",
+"value": "Factories and Manufacturing"
+},
+{
+"isMajor": "N",
+"rank": 3,
+"name": "subject",
+"value": "Steel and Iron"
+},
+{
+"isMajor": "N",
+"rank": 4,
+"name": "organizations",
+"value": "Kobe Steel Limited"
+},
+{
+"isMajor": "N",
+"rank": 5,
+"name": "glocations",
+"value": "Japan"
+}
+],
+"pub_date": "2017-11-10T13:36:35+0000",
+"document_type": "article",
+"new_desk": "None",
+"section_name": "Middle East",
+"byline": {
+"original": "By REUTERS"
+},
+"type_of_material": "News",
+"_id": "5a05ab6f7c459f246b633bc1",
+"word_count": 395,
+"score": 1,
+"uri": "nyt://article/ec56b6bb-f43b-5712-8307-544d8f2fab30"
+}]';
+
+}

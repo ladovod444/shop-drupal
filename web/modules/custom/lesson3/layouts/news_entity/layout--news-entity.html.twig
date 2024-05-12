@@ -1,0 +1,80 @@
+{#
+/**
+ * @file
+ * Default theme implementation for a three column layout.
+ *
+ * This template provides a three column 25%-50%-25% display layout, with
+ * additional areas for the top and the bottom.
+ *
+ * Available variables:
+ * - content: The content for this layout.
+ * - attributes: HTML attributes for the layout <div>.
+ *
+ * @ingroup themeable
+ */
+#}
+{%
+  set classes = [
+  'layout',
+  'layout--news-entity',
+]
+%}
+{% if content %}
+  <div{{ attributes.addClass(classes) }}>
+    {% if content.top %}
+      <div {{ region_attributes.top.addClass('layout__region', 'layout__region--top') }}>
+        {{ content.top }}
+      </div>
+    {% endif %}
+
+    {% if content.top_left %}
+      <div {{ region_attributes.top_left.addClass('layout__region', 'layout__region--top-left') }}>
+        {{ content.top_left }}
+      </div>
+    {% endif %}
+
+    {% if content.top_right %}
+      <div {{ region_attributes.top_right.addClass('layout__region', 'layout__region--top-right') }}>
+        {{ content.top_right }}
+      </div>
+    {% endif %}
+
+    {% if content.left %}
+      <div {{ region_attributes.left.addClass('layout__region', 'layout__region--left') }}>
+        {{ content.left }}
+      </div>
+    {% endif %}
+
+    {% if content.main %}
+      <div {{ region_attributes.main.addClass('layout__region', 'layout__region--main') }}>
+        {{ content.main }}
+      </div>
+    {% endif %}
+
+
+    {% if content.right %}
+      <div {{ region_attributes.right.addClass('layout__region', 'layout__region--right') }}>
+        {{ content.right }}
+      </div>
+    {% endif %}
+
+    {% if content.bottom_left %}
+      <div {{ region_attributes.bottom_left.addClass('layout__region', 'layout__region--bottom-left') }}>
+        {{ content.bottom_left }}
+      </div>
+    {% endif %}
+
+    {% if content.bottom_right %}
+      <div {{ region_attributes.bottom_right.addClass('layout__region', 'layout__region--bottom-right') }}>
+        {{ content.bottom_right }}
+      </div>
+    {% endif %}
+
+
+    {% if content.bottom %}
+      <div {{ region_attributes.bottom.addClass('layout__region', 'layout__region--bottom') }}>
+        {{ content.bottom }}
+      </div>
+    {% endif %}
+  </div>
+{% endif %}

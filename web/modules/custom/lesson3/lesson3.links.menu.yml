@@ -1,0 +1,26 @@
+lesson3.lesson3_nytimes_api_form:
+  title: 'Lesson3 NYTimes Api'
+  route_name: lesson3.lesson3_nytimes_api_form
+  description: 'Settings for NYTimes Api'
+  parent: system.admin_config_services
+  weight: 99
+
+# News entity menu items definition
+entity.news_entity.collection:
+  title: 'News entity list'
+  route_name: entity.news_entity.collection
+  description: 'List News entity entities'
+  parent: system.admin_content
+  weight: 100
+lesson3.news_batch_form:
+  title: 'News entity batch form'
+  route_name: lesson3.news_batch_form
+  description: 'Batch form to create news entities'
+  parent: system.admin_content
+  weight: 101
+
+news_entity.admin.structure.settings:
+  title: 'News entity settings'
+  description: 'Configure News entity entities'
+  route_name: news_entity.settings
+  parent: system.admin_structure

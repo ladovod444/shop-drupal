@@ -1,0 +1,8 @@
+entity.news_entity.edit_form:
+  title: 'Edit entity'
+  route_name: entity.news_entity.edit_form
+  group: news_entity
+entity.news_entity.delete_form:
+  title: 'Delete entity'
+  route_name: entity.news_entity.delete_form
+  group: news_entity

@@ -1,0 +1,23 @@
+uuid: cff5ded0-1526-4f42-a8d8-4f8c039f58d6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.news_entity.field_web_url
+  module:
+    - lesson3
+    - link
+id: news_entity.news_entity.field_web_url
+field_name: field_web_url
+entity_type: news_entity
+bundle: news_entity
+label: 'Web url'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 1
+field_type: link

@@ -1,0 +1,26 @@
+layout_news_entity:
+  label: 'Drupal8 School News Entity layout'
+  path: layouts/news_entity
+  template: layout--news-entity
+  library: lesson3/lesson3.news_entity
+  category: 'Drupal8 School category'
+  default_region: first
+  regions:
+    top:
+      label: Top
+    top_left:
+      label: Top left
+    top_right:
+      label: Top right
+    left:
+      label: Left
+    main:
+      label: Main
+    right:
+      label: Right
+    bottom_left:
+      label: Bottom left
+    bottom_right:
+      label: Bottom Right
+    bottom:
+      label: Bottom

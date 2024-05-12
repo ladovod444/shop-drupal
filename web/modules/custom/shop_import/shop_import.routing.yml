@@ -1,0 +1,7 @@
+shop_import.fortine_setting:
+  path: '/admin/config/system/fortine-setting'
+  defaults:
+    _title: 'Fortine setting'
+    _form: 'Drupal\shop_import\Form\FortineSettingForm'
+  requirements:
+    _permission: 'administer site configuration'

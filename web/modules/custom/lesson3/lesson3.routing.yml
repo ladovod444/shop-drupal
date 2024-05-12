@@ -1,0 +1,54 @@
+lesson3.lesson3_nytimes_api_form:
+  path: '/admin/config/lesson3/lesson3-nytimes-api'
+  defaults:
+    _form: '\Drupal\lesson3\Form\Lesson3NYTimesAPIForm'
+    _title: 'Lesson3 NYTimes API settings'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
+lesson3.lesson7_config_form:
+  path: '/admin/config/lesson7'
+  defaults:
+    _form: '\Drupal\lesson3\Form\Lesson7ConfigForm'
+    _title: 'Lesson7 settings'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
+lesson3.lesson3_news_controller_display:
+  path: '/news/{arg}'
+  defaults:
+    _controller: '\Drupal\lesson3\Controller\Lesson3NewsController::display'
+    _title_callback: '\Drupal\lesson3\Controller\Lesson3NewsController::getTitle'
+  requirements:
+    _permission: 'access content'
+lesson3.lesson3_news_form:
+  path: '/news/form'
+  defaults:
+    _form: '\Drupal\lesson3\Form\Lesson3NewsForm'
+    _title: 'Lesson3 News Form'
+  requirements:
+    _permission: 'access lesson3 news form'
+lesson3.news_batch_form:
+  path: '/admin/structure/sandbox-entity/batch-news'
+  defaults:
+    _form: '\Drupal\lesson3\Form\NewsBatchForm'
+    _title: 'NewsBatchForm'
+  requirements:
+    _permission: 'administer news entity entities'
+
+lesson3.lesson7_responses_controller_responseRedirect:
+  path: '/lesson7/response-redirect'
+  defaults:
+    _controller: '\Drupal\lesson3\Controller\Lesson7ResponsesController::responseRedirect'
+    _title: 'ResponsesController'
+  requirements:
+    _permission: 'access content'
+lesson3.lesson7_responses_controller_responseJson:
+  path: '/lesson7/response-json'
+  defaults:
+    _controller: '\Drupal\lesson3\Controller\Lesson7ResponsesController::responseJson'
+    _title: 'ResponsesJson'
+  requirements:
+    _permission: 'access content'

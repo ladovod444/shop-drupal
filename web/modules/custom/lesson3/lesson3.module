@@ -1,0 +1,88 @@
+<?php
+
+/**
+ * @file
+ * Contains lesson3.module.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Queue\SuspendQueueException;
+use Drupal\file\Entity\File;
+use Drupal\Core\Entity\EntityStorageException;
+
+/**
+ * Implements hook_theme().
+ */
+function lesson3_theme($existing, $type, $theme, $path) {
+  return [
+    'nytimes_news_list' => [
+      'variables' => [
+        'news_items' => NULL,
+        'title' => NULL,
+      ],
+    ],
+    'news_entity' => [
+      'render element' => 'elements',
+      'file' => 'news_entity.page.inc',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_cron().
+ */
+function lesson3_cron() {
+  $nytimes_news_service = \Drupal::service('lesson3.nytimes_news');
+  $queue = \Drupal::queue('news_entity_create_queue', TRUE);
+  if (empty($queue->numberOfItems())) {
+    // Get news_data and add to queue.
+    $news_data = $nytimes_news_service->getNews('day');
+    foreach ($news_data['docs'] as $news_item) {
+      $queue->createItem($news_item);
+    }
+  }
+  else {
+    $items_count = 0;
+    while ($item = $queue->claimItem()) {
+      try {
+        $nytimes_news_service->createNewsEntity($item->data);
+        $queue->deleteItem($item);
+        $items_count++;
+      }
+      catch (SuspendQueueException $e) {
+        $queue->releaseItem($item);
+        break;
+      }
+      catch (Exception $e) {
+        \Drupal::logger('lesson3')->error('An error occurred while
+         processing queue');
+      }
+    }
+    if ($items_count) {
+      \Drupal::logger('news')->notice('Number of queue items processed
+      @items_count', ['@items_count' => $items_count]);
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_delete().
+ */
+function lesson3_entity_delete(EntityInterface $entity) {
+  $entity_type = $entity->getEntityTypeId();
+  if ($entity_type == 'news_entity') {
+    $mulimedia_files = $entity->get('field_multimedia');
+    foreach ($mulimedia_files as $file_item) {
+      $file = File::load($file_item->get('target_id')->getValue());
+      try {
+        $file->delete();
+      }
+      catch (EntityStorageException $e) {
+        Drupal::logger('lesson3')->error('Error trying to delete file @fid, @error', [
+          '@fid' => $file->id(),
+          '@error' => $e->getMessage(),
+        ]);
+      }
+    }
+  }
+}

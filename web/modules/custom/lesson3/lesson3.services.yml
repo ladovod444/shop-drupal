@@ -1,0 +1,10 @@
+services:
+  lesson3.nytimes_news:
+    class: Drupal\lesson3\Services\Lesson3NYTimesNews
+    arguments: ['@logger.factory', '@lesson3.keywords_service', '@file_system', '@entity_type.manager', '@http_client', '@datetime.time', '@config.factory', '@token', '@cache.default']
+  lesson3.keywords_service:
+    class: Drupal\lesson3\Services\Lesson3KeywordsService
+    arguments: ['@database', '@logger.factory']
+  lesson3.news_lazy_builder:
+    class: Drupal\lesson3\Services\Lesson3NewsLazyBuilder
+    arguments: ['@lesson3.nytimes_news', '@pager.manager', '@config.factory']

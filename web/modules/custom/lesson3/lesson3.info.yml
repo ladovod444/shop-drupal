@@ -1,0 +1,9 @@
+name: 'lesson3'
+type: module
+description: 'Lesson3 Homework'
+core: 8.x
+package: 'Drupal 8 School'
+core_version_requirement: ^10
+dependencies:
+  - layout_discovery
+  - field_layout

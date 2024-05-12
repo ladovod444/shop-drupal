@@ -1,0 +1,3 @@
+response_redirect_url: 'https://epam.com'
+response_max_age: '600'
+response_entities_count: '5'

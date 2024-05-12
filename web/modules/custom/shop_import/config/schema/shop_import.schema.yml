@@ -1,0 +1,8 @@
+# Schema for the configuration files of the Shop import module.
+shop_import.settings:
+  type: config_object
+  label: 'Shop import settings'
+  mapping:
+    example:
+      type: string
+      label: 'Example'

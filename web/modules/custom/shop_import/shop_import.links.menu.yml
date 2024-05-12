@@ -1,0 +1,5 @@
+shop_import.fortine_setting:
+  title: Fortine setting
+  parent: system.admin_config_system
+  route_name: shop_import.fortine_setting
+  weight: 10

@@ -1,0 +1,61 @@
+<?php
+
+/**
+ * Implements hook_prepocess_HOOK
+ */
+function shop_import_preprocess_page(&$variables) {
+
+//  $tesr_serv = \Drupal::service('shop_import.import');
+//  $t = $tesr_serv->productsImport();
+  $a = 1;
+
+//  $sku = 'product-skuv2:/1dc2bc0b7e60ba4fae928c130fa25deafa5a7abed031fd7ed40174d5ba2257d7';
+//
+//  $query = \Drupal::entityQuery('commerce_product_variation');
+//  $query->condition('sku', $sku);
+//  $query->accessCheck(TRUE);
+//  //$query->condition('status', 1);
+//  $product_ids = $query->execute();
+//  $a = 1;
+}
+
+/**
+ * Implements hook_cron.
+ */
+function shop_import_cron() {
+  // TODO make further use of Queue
+  /** @var Drupal\shop_import\ShopImport $shop_import_service */
+  $shop_import_service = \Drupal::service('shop_import.import');
+  $queue = \Drupal::queue('shop_import_create_queue', TRUE);
+  if (empty($queue->numberOfItems())) {
+    // Get news_data and add to queue.
+    $products_data = $shop_import_service->productsImport();
+    foreach ($products_data as $product_item) {
+      $queue->createItem($product_item);
+      //drush_print_r();
+    }
+  }
+  else {
+    $items_count = 0;
+    while ($item = $queue->claimItem()) {
+      try {
+        $shop_import_service->createProduct($item->data);
+        $queue->deleteItem($item);
+        $items_count++;
+      }
+      catch (SuspendQueueException $e) {
+        $queue->releaseItem($item);
+        break;
+      }
+      catch (Exception $e) {
+        \Drupal::logger('shop_import')->error('An error occurred while
+         processing queue');
+      }
+    }
+    if ($items_count) {
+      \Drupal::logger('shop_import')->notice('Number of queue items processed
+      @items_count', ['@items_count' => $items_count]);
+    }
+  }
+
+}

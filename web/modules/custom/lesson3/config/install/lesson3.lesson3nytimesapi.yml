@@ -1,0 +1,5 @@
+nytimes_api_key: aS3c4L51VOQo53gMj9LmsfGzoopG4QE5
+nytimes_api_url: 'https://api.nytimes.com/svc/search/v2/articlesearch.json'
+nytimes_image_base_url: 'https://static01.nyt.com'
+pager_quantity: '5'
+items_per_page: '10'

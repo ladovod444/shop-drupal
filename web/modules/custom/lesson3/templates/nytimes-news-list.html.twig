@@ -1,0 +1,9 @@
+<div class="news-wrapper">
+  <h2 class="news-title">{{ title }}</h2>
+  {% for news_item in news_items %}
+   <div class="news-item">
+     <p>{{ news_item.pub_date }}</p>
+     <p>{{ news_item.link }}</p>
+   </div>
+  {% endfor %}
+</div>

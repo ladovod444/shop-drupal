@@ -1,0 +1,23 @@
+access lesson3 news form:
+  title: 'Access Lesson3 news form'
+  description: 'Allow to access lesson3 news form'
+
+add news entity entities:
+  title: 'Create new News entity entities'
+
+administer news entity entities:
+  title: 'Administer News entity entities'
+  description: 'Allow to access the administration form to configure News entity entities.'
+  restrict access: true
+
+delete news entity entities:
+  title: 'Delete News entity entities'
+
+edit news entity entities:
+  title: 'Edit News entity entities'
+
+view published news entity entities:
+  title: 'View published News entity entities'
+
+view unpublished news entity entities:
+  title: 'View unpublished News entity entities'

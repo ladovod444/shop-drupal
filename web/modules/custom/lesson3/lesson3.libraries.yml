@@ -1,0 +1,5 @@
+lesson3.news_entity:
+  version: VERSION
+  css:
+    theme:
+      layouts/news_entity/news-entity.css: {}
