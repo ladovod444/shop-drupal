@@ -1,0 +1,26 @@
+uuid: 6a133537-3a4f-4ce2-9fb4-a9ebc1ee9e9a
+langcode: ru
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.article
+  module:
+    - text
+_core:
+  default_config_hash: 4Wxs1LseZ8JsNwD9uJVIbzZqG35yQXN8Eo1Hub6NMuI
+id: node.article.body
+field_name: body
+entity_type: node
+bundle: article
+label: Содержимое
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+  allowed_formats: {  }
+field_type: text_with_summary

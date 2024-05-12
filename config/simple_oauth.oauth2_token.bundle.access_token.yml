@@ -1,0 +1,10 @@
+uuid: d26bbf0f-5f68-4dfd-b3c0-54da3d9b5f8a
+langcode: ru
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: z9ULI9nj9yt73YKI3ZE8v9yXhkVfvQsDJToEDzijcxY
+id: access_token
+label: 'Ключ доступа'
+description: 'The access token type.'
+locked: true
