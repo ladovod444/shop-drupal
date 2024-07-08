@@ -1,7 +1,6 @@
 <?php
 
-//declare(strict_types=1);
-
+// declare(strict_types=1);.
 namespace Drupal\shop_import;
 
 use Drupal\commerce_price\Price;
@@ -11,11 +10,11 @@ use Drupal\Component\Render\PlainTextOutput;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\File\FileSystemInterface;
+use Drupal\Core\Session\AccountProxy;
 use Drupal\Core\Utility\Token;
 use Drupal\field\Entity\FieldConfig;
-use GuzzleHttp\Client;
 use Drupal\file\FileRepository;
-use Drupal\Core\Session\AccountProxy;
+use GuzzleHttp\Client;
 
 /**
  * @todo Add class description.
@@ -46,27 +45,29 @@ final class ShopImport {
 
     $response = $this->httpClient->request('GET', $api_url, [
       'headers'        => [
-        'Authorization' => $api_key
+        'Authorization' => $api_key,
       ],
     ]);
 
     $response_data = json_decode($response->getBody()->getContents(), TRUE);
-    //var_dump($response_data['shop']);
+    // var_dump($response_data['shop']);.
     $shop_data = $response_data['shop'];
 
     $test_count = 0;
-//    foreach ($shop_data as $shop_item) {
-//      // TODO add checking whether product exist
-//      $this->createProduct($shop_item, $api_key, $api_url);
-//      $test_count++;
-//      if ($test_count > 30) {
-//        break;
-//      }
-//    }
-
+    // Foreach ($shop_data as $shop_item) {
+    //      // @todo add checking whether product exist
+    //      $this->createProduct($shop_item, $api_key, $api_url);
+    //      $test_count++;
+    //      if ($test_count > 30) {
+    //        break;
+    //      }
+    //    }.
     return $shop_data;
   }
 
+  /**
+   *
+   */
   public function createProduct(array $data_item) {
 
     $product_data = [
@@ -75,15 +76,14 @@ final class ShopImport {
       'displayDescription' => $data_item["displayDescription"],
       'offerId' => $data_item["offerId"],
       'price' => $data_item["price"],
-      //'publication_date' => strtotime($data_item["pub_date"]),
-
+      // 'publication_date' => strtotime($data_item["pub_date"]),
     ];
 
     // Image save example.
     $field_product_image = [];
     foreach ($data_item["displayAssets"] as $key => $image_data_item) {
       if (!empty($image_data_item["url"])) {
-        //$url = $api_url . '/' . $image_data_item["url"];
+        // $url = $api_url . '/' . $image_data_item["url"];
         $url = $image_data_item["url"];
         $data = file_get_contents($url);
         $file_name = basename($url);
@@ -98,22 +98,20 @@ final class ShopImport {
 
         $this->fileSystem->prepareDirectory($file_directory,
           FileSystemInterface::CREATE_DIRECTORY);
-//        $file = file_save_data($data, $file_directory . '/' . $file_name,
-//          FileSystemInterface::EXISTS_REPLACE);
-
+        // $file = file_save_data($data, $file_directory . '/' . $file_name,
+        //          FileSystemInterface::EXISTS_REPLACE);
         $file = $this->fileRepository->writeData($data, $file_directory . '/' . $file_name,
           FileSystemInterface::EXISTS_REPLACE);
 
-//return $save ? file_save_data($data, NodeExport::getFileUri($format), FileSystemInterface::EXISTS_REPLACE) : $data;
-//return $save ? \Drupal::service('file.repository')->writeData($data, NodeExport::getFileUri($format), FileSystemInterface::EXISTS_REPLACE) : $data;
-
-//        $field_product_image[] = [
-//          'target_id' => $file->id(),
-//          //'alt' => $data_item["headline"]["main"],
-//        ];
+        // Return $save ? file_save_data($data, NodeExport::getFileUri($format), FileSystemInterface::EXISTS_REPLACE) : $data;
+        // return $save ? \Drupal::service('file.repository')->writeData($data, NodeExport::getFileUri($format), FileSystemInterface::EXISTS_REPLACE) : $data;
+        //        $field_product_image[] = [
+        //          'target_id' => $file->id(),
+        //          //'alt' => $data_item["headline"]["main"],
+        //        ];.
         $field_product_image = [
           'target_id' => $file->id(),
-          //'alt' => $data_item["headline"]["main"],
+          // 'alt' => $data_item["headline"]["main"],
         ];
       }
     }
@@ -124,13 +122,16 @@ final class ShopImport {
     $this->createNewProduct($product_data);
   }
 
+  /**
+   *
+   */
   private function createNewProduct($product_data) {
 
     $sku = 'product-sku' . $product_data["offerId"];
     $query = \Drupal::entityQuery('commerce_product_variation');
     $query->condition('sku', $sku);
     $query->accessCheck(TRUE);
-    //$query->condition('status', 1);
+    // $query->condition('status', 1);
     $product_ids = $query->execute();
     // Check product_ids.
     if (!count($product_ids)) {
@@ -149,30 +150,28 @@ final class ShopImport {
 
       $store = 1;
 
-//    // Save imgae.
-//    $fid = $form_state->getValue(['file', 0]);
-//    if (!empty($fid)) {
-//      $file = File::load($fid);
-//      $file->setPermanent();
-//      $file->save();
-//    }
-
-      ////TODO Find SP
-
+      // // Save imgae.
+      //    $fid = $form_state->getValue(['file', 0]);
+      //    if (!empty($fid)) {
+      //      $file = File::load($fid);
+      //      $file->setPermanent();
+      //      $file->save();
+      //    }
+      // @todo Find SP
       $product = Product::create([
         'uid' => $this->account->id(),
         'type' => 'default',
         'title' => $product_data['title'],
         'stores' => [$store],
         'field_mainid' => [
-          'value' => $product_data['mainId']
+          'value' => $product_data['mainId'],
         ],
 
         // Attach variations to product.
         'variations' => $variations,
-//      'field_category' => [
-//        'target_id' => $form_state->getValue('category'),
-//      ],
+        // 'field_category' => [
+        //        'target_id' => $form_state->getValue('category'),
+        //      ],
         // Attach image to product.
         'field_product_image' => $product_data['field_product_image']['target_id'] ? [
           // Set file_id.
@@ -188,10 +187,8 @@ final class ShopImport {
       $product->save();
     }
     else {
-      // TODO UPDATE
+      // @todo UPDATE.
     }
   }
-
-
 
 }

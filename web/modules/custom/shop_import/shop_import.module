@@ -1,15 +1,21 @@
 <?php
 
 /**
- * Implements hook_prepocess_HOOK
+ * @file
+ * Contains shop_import.module.
+ */
+
+use Drupal\Core\Queue\SuspendQueueException;
+
+/**
+ * Implements hook_prepocess_HOOK. *
  */
 function shop_import_preprocess_page(&$variables) {
-
-//  $tesr_serv = \Drupal::service('shop_import.import');
+// $tesr_serv = \Drupal::service('shop_import.import');
 //  $t = $tesr_serv->productsImport();
-  $a = 1;
+$a = 1;
 
-//  $sku = 'product-skuv2:/1dc2bc0b7e60ba4fae928c130fa25deafa5a7abed031fd7ed40174d5ba2257d7';
+// $sku = 'product-skuv2:/1dc2bc0b7e60ba4fae928c130fa25deafa5a7abed031fd7ed40174d5ba2257d7';
 //
 //  $query = \Drupal::entityQuery('commerce_product_variation');
 //  $query->condition('sku', $sku);
@@ -19,11 +25,16 @@ function shop_import_preprocess_page(&$variables) {
 //  $a = 1;
 }
 
+
 /**
  * Implements hook_cron.
  */
+
+/**
+ *
+ */
 function shop_import_cron() {
-  // TODO make further use of Queue
+  // @todo make further use of Queue.
   /** @var Drupal\shop_import\ShopImport $shop_import_service */
   $shop_import_service = \Drupal::service('shop_import.import');
   $queue = \Drupal::queue('shop_import_create_queue', TRUE);
@@ -32,7 +43,7 @@ function shop_import_cron() {
     $products_data = $shop_import_service->productsImport();
     foreach ($products_data as $product_item) {
       $queue->createItem($product_item);
-      //drush_print_r();
+      // drush_print_r();
     }
   }
   else {
@@ -57,5 +68,4 @@ function shop_import_cron() {
       @items_count', ['@items_count' => $items_count]);
     }
   }
-
 }

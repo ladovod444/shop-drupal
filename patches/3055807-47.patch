@@ -1,0 +1,185 @@
+diff --git a/core/modules/user/src/Plugin/rest/resource/UserRegistrationResource.php b/core/modules/user/src/Plugin/rest/resource/UserRegistrationResource.php
+index 01e72cb3d5..80da68bd7a 100644
+--- a/core/modules/user/src/Plugin/rest/resource/UserRegistrationResource.php
++++ b/core/modules/user/src/Plugin/rest/resource/UserRegistrationResource.php
+@@ -3,6 +3,7 @@
+ namespace Drupal\user\Plugin\rest\resource;
+ 
+ use Drupal\Core\Config\ImmutableConfig;
++use Drupal\Core\Password\PasswordGeneratorInterface;
+ use Drupal\Core\Session\AccountInterface;
+ use Drupal\rest\ModifiedResourceResponse;
+ use Drupal\rest\Plugin\ResourceBase;
+@@ -46,6 +47,13 @@ class UserRegistrationResource extends ResourceBase {
+    */
+   protected $currentUser;
+ 
++  /**
++   * The password generator.
++   *
++   * @var \Drupal\Core\Password\PasswordGeneratorInterface
++   */
++  protected $passwordGenerator;
++
+   /**
+    * Constructs a new UserRegistrationResource instance.
+    *
+@@ -63,11 +71,19 @@ class UserRegistrationResource extends ResourceBase {
+    *   A user settings config instance.
+    * @param \Drupal\Core\Session\AccountInterface $current_user
+    *   The current user.
++   * @param \Drupal\Core\Password\PasswordGeneratorInterface|null $password_generator
++   *   The password generator.
+    */
+-  public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, ImmutableConfig $user_settings, AccountInterface $current_user) {
++  public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, ImmutableConfig $user_settings, AccountInterface $current_user, PasswordGeneratorInterface $password_generator = NULL) {
++    if (is_null($password_generator)) {
++      @trigger_error('Calling ' . __METHOD__ . '() without the $password_generator argument is deprecated in drupal:10.0.0 and will be required in drupal:11.0.0.', E_USER_DEPRECATED);
++      $password_generator = \Drupal::service('password_generator');
++    }
++
+     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
+     $this->userSettings = $user_settings;
+     $this->currentUser = $current_user;
++    $this->passwordGenerator = $password_generator;
+   }
+ 
+   /**
+@@ -81,7 +97,8 @@ public static function create(ContainerInterface $container, array $configuratio
+       $container->getParameter('serializer.formats'),
+       $container->get('logger.factory')->get('rest'),
+       $container->get('config.factory')->get('user.settings'),
+-      $container->get('current_user')
++      $container->get('current_user'),
++      $container->get('password_generator')
+     );
+   }
+ 
+@@ -100,15 +117,19 @@ public static function create(ContainerInterface $container, array $configuratio
+   public function post(UserInterface $account = NULL) {
+     $this->ensureAccountCanRegister($account);
+ 
+-    // Only activate new users if visitors are allowed to register and no email
+-    // verification required.
+-    if ($this->userSettings->get('register') == UserInterface::REGISTER_VISITORS && !$this->userSettings->get('verify_mail')) {
++    // Only activate new users if visitors are allowed to register.
++    if ($this->userSettings->get('register') == UserInterface::REGISTER_VISITORS) {
+       $account->activate();
+     }
+     else {
+       $account->block();
+     }
+ 
++    // Generate password if email verification required.
++    if ($this->userSettings->get('verify_mail')) {
++      $account->setPassword($this->passwordGenerator->generate());
++    }
++
+     $this->checkEditFieldAccess($account);
+ 
+     // Make sure that the user entity is valid (email and name are valid).
+diff --git a/core/modules/user/tests/src/Functional/UserRegistrationRestTest.php b/core/modules/user/tests/src/Functional/UserRegistrationRestTest.php
+index fe5283f1a7..72c11a1e70 100644
+--- a/core/modules/user/tests/src/Functional/UserRegistrationRestTest.php
++++ b/core/modules/user/tests/src/Functional/UserRegistrationRestTest.php
+@@ -101,8 +101,8 @@ public function testRegisterUser() {
+     $config->save();
+     $name = 'Jason.Taverner';
+     $user = $this->registerUser($name, FALSE);
+-    $this->assertEmpty($user->getPassword());
+-    $this->assertTrue($user->isBlocked());
++    $this->assertNotEmpty($user->getPassword());
++    $this->assertFalse($user->isBlocked());
+     $this->resetAll();
+ 
+     $this->assertMailString('body', 'You may now log in by clicking this link', 1);
+@@ -126,7 +126,7 @@ public function testRegisterUser() {
+     $name = 'Bob.Arctor';
+     $user = $this->registerUser($name, FALSE);
+     $this->resetAll();
+-    $this->assertEmpty($user->getPassword());
++    $this->assertNotEmpty($user->getPassword());
+     $this->assertTrue($user->isBlocked());
+ 
+     $this->assertMailString('body', 'Your application for an account is', 2);
+diff --git a/core/modules/user/tests/src/Unit/UserRegistrationResourceTest.php b/core/modules/user/tests/src/Unit/UserRegistrationResourceTest.php
+index a403f69f77..a7cc55d213 100644
+--- a/core/modules/user/tests/src/Unit/UserRegistrationResourceTest.php
++++ b/core/modules/user/tests/src/Unit/UserRegistrationResourceTest.php
+@@ -3,6 +3,8 @@
+ namespace Drupal\Tests\user\Unit;
+ 
+ use Drupal\Core\Config\ImmutableConfig;
++use Drupal\Core\DependencyInjection\ContainerBuilder;
++use Drupal\Core\Password\PasswordGeneratorInterface;
+ use Drupal\Core\Session\AccountInterface;
+ use Drupal\Tests\UnitTestCase;
+ use Drupal\user\Entity\User;
+@@ -57,6 +59,13 @@ class UserRegistrationResourceTest extends UnitTestCase {
+    */
+   protected $currentUser;
+ 
++  /**
++   * The password generator.
++   *
++   * @var \Drupal\Core\Password\PasswordGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject
++   */
++  protected $passwordGenerator;
++
+   /**
+    * {@inheritdoc}
+    */
+@@ -69,7 +78,9 @@ protected function setUp(): void {
+ 
+     $this->currentUser = $this->prophesize(AccountInterface::class);
+ 
+-    $this->testClass = new UserRegistrationResource([], 'plugin_id', '', [], $this->logger, $this->userSettings->reveal(), $this->currentUser->reveal());
++    $this->passwordGenerator = $this->prophesize(PasswordGeneratorInterface::class)->reveal();
++
++    $this->testClass = new UserRegistrationResource([], 'plugin_id', '', [], $this->logger, $this->userSettings->reveal(), $this->currentUser->reveal(), $this->passwordGenerator);
+     $this->reflection = new \ReflectionClass($this->testClass);
+   }
+ 
+@@ -101,7 +112,7 @@ public function testRegistrationAdminOnlyPost() {
+ 
+     $this->currentUser->isAnonymous()->willReturn(TRUE);
+ 
+-    $this->testClass = new UserRegistrationResource([], 'plugin_id', '', [], $this->logger, $this->userSettings->reveal(), $this->currentUser->reveal());
++    $this->testClass = new UserRegistrationResource([], 'plugin_id', '', [], $this->logger, $this->userSettings->reveal(), $this->currentUser->reveal(), $this->passwordGenerator);
+ 
+     $entity = $this->prophesize(User::class);
+     $entity->isNew()->willReturn(TRUE);
+@@ -117,7 +128,7 @@ public function testRegistrationAdminOnlyPost() {
+   public function testRegistrationAnonymousOnlyPost() {
+     $this->currentUser->isAnonymous()->willReturn(FALSE);
+ 
+-    $this->testClass = new UserRegistrationResource([], 'plugin_id', '', [], $this->logger, $this->userSettings->reveal(), $this->currentUser->reveal());
++    $this->testClass = new UserRegistrationResource([], 'plugin_id', '', [], $this->logger, $this->userSettings->reveal(), $this->currentUser->reveal(), $this->passwordGenerator);
+ 
+     $entity = $this->prophesize(User::class);
+     $entity->isNew()->willReturn(TRUE);
+@@ -127,4 +138,24 @@ public function testRegistrationAnonymousOnlyPost() {
+     $this->testClass->post($entity->reveal());
+   }
+ 
++  /**
++   * Tests the deprecation messages.
++   *
++   * @covers ::__construct
++   *
++   * @group legacy
++   */
++  public function testDeprecations() {
++    $this->expectDeprecation('Calling Drupal\user\Plugin\rest\resource\UserRegistrationResource::__construct() without the $password_generator argument is deprecated in drupal:10.0.0 and will be required in drupal:11.0.0.');
++    $this->expectException(BadRequestHttpException::class);
++
++    $container = new ContainerBuilder();
++    $password_generator = $this->prophesize(PasswordGeneratorInterface::class);
++    $container->set('password_generator', $password_generator->reveal());
++    \Drupal::setContainer($container);
++
++    $this->testClass = new UserRegistrationResource([], 'plugin_id', '', [], $this->logger, $this->userSettings->reveal(), $this->currentUser->reveal());
++    $this->testClass->post(NULL);
++  }
++
+ }

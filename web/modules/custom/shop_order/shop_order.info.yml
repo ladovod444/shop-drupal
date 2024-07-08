@@ -1,0 +1,5 @@
+name: 'Shop order'
+type: module
+description: '@todo Add description.'
+package: '@todo Add package'
+core_version_requirement: ^10

@@ -1,0 +1,22 @@
+uuid: 9cc8b7f9-43ac-40da-97cc-9660bb3b324b
+langcode: ru
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - claro
+_core:
+  default_config_hash: a0Yyx1GeyKarZ4T_yXQBR_ZFKnXiFLtxAb6gWLd8nr0
+id: claro_content
+theme: claro
+region: content
+weight: 0
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Содержимое страницы'
+  label_display: '0'
+  provider: system
+visibility: {  }

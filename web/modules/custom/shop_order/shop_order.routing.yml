@@ -1,0 +1,7 @@
+shop_order.example:
+  path: '/shop-order/example'
+  defaults:
+    _title: 'Example'
+    _controller: '\Drupal\shop_order\Controller\ShopOrderController'
+  requirements:
+    _permission: 'access content'

@@ -5,8 +5,8 @@ namespace Drupal\lesson3\Form;
 use Drupal\Core\Batch\BatchBuilder;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\lesson3\Services\Lesson3NYTimesNews;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class NewsBatchForm.

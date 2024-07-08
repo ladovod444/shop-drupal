@@ -2,21 +2,21 @@
 
 namespace Drupal\lesson3\Services;
 
+use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Component\Render\PlainTextOutput;
 use Drupal\Component\Serialization\Json;
 use Drupal\Component\Utility\UrlHelper;
+use Drupal\Core\Cache\CacheBackendInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Url;
+use Drupal\Core\Utility\Token;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\taxonomy\Entity\Term;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Client;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Component\Datetime\TimeInterface;
 use Drupal\webprofiler\Config\ConfigFactoryWrapper;
-use Drupal\Core\Utility\Token;
-use Drupal\Core\Cache\CacheBackendInterface;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 
 /**
  * Profides service to fetch news data from https://api.nytimes.com.
@@ -113,15 +113,17 @@ class Lesson3NYTimesNews {
   /**
    * Constructs a new NYTimesNews object.
    */
-  public function __construct(LoggerChannelFactoryInterface $logger,
-                              Lesson3KeywordsService $keywords_service,
-                              FileSystemInterface $file_system,
-                              EntityTypeManagerInterface $entity_type_manager,
-                              Client $http_client,
-                              TimeInterface $lesson3_time,
-                              ConfigFactoryWrapper $config_factory,
-                              Token $token,
-                              CacheBackendInterface $cache_backend) {
+  public function __construct(
+    LoggerChannelFactoryInterface $logger,
+    Lesson3KeywordsService $keywords_service,
+    FileSystemInterface $file_system,
+    EntityTypeManagerInterface $entity_type_manager,
+    Client $http_client,
+    TimeInterface $lesson3_time,
+    ConfigFactoryWrapper $config_factory,
+    Token $token,
+    CacheBackendInterface $cache_backend,
+  ) {
     $api_ny_times_config = $config_factory->get('lesson3.lesson3nytimesapi');
     $this->nytimesApiKey = $api_ny_times_config->get('nytimes_api_key');
     $this->nytimesApiUrl = $api_ny_times_config->get('nytimes_api_url');

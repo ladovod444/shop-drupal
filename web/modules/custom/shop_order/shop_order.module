@@ -1,0 +1,114 @@
+<?php
+
+/**
+ * @file
+ * Contains shop_order.module.
+ */
+
+use Drupal\commerce_order\Entity\OrderItem;
+use Drupal\symfony_mailer_lite\Plugin\Mail\SymfonyMailer;
+use Drupal\views\ViewExecutable;
+
+/**
+ * Implements hook_mail().
+ */
+function shop_order_mail($key, &$message, $params)
+{
+  $renderer = \Drupal::service('renderer');
+
+  $options = [
+    'langcode' => $message['langcode'],
+  ];
+  switch ($key) {
+    case 'order_created':
+      $message['headers']['Content-Type'] = SymfonyMailer::FORMAT_HTML;
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = t('@title', ['@title' => $params['title']], $options);
+      // $message['body'][] = Html::escape($params['message']);
+      $message['body'][] = $renderer->render($params['message']);
+      break;
+  }
+}
+
+/**
+ * Implements hook_theme().
+ * NOT NEEDED
+ */
+function shop_order_theme($existing, $type, $theme, $path)
+{
+  return [
+    'shop_create_order' => [
+      'variables' => [
+        'email_title_text' => NULL,
+        'email_body_content' => NULL,
+//        'residence' => NULL,
+//        'series_and_number' => NULL,
+      ],
+    ],
+
+  ];
+}
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function shop_order_views_pre_render(ViewExecutable $view)
+{
+  if ($view->id() == 'user_orders_rest1') {
+    $results = $view->result;
+    $a = 1;
+
+    foreach ($results as &$result_item) {
+      $order_items = $result_item->_entity->toArray()['order_items'];
+
+      //$f = $result_item->_entity->type->value;
+      $d = 1;
+
+      //206
+
+      //$oi = OrderItem::load(207);
+
+      $order_items['item_full'] = OrderItem::load(207);
+
+      //$result_item->_entity->set('order_items', [206, $oi]);
+      $result_item->_entity->set('order_items', $order_items);
+
+//      $result->_entity->field_somefield->value
+//
+//      $values = $result_item->_entity->values;
+//      $oi = 1;
+//
+//      $b = $result_item->_entity->bundle();
+      $i = 1;
+
+    }
+  }
+
+//  $results = $view->result;
+//  $filteredResults = [];
+//
+//  foreach ($results as $result) {
+//    if ($result->_entity->field_name->value === 'fieldValue') {
+//      $filteredResults[] = $result;
+//    }
+//  }
+//
+//  // Important to set index values for view results rendering
+//  foreach ($filteredResults as $key => $row) {
+//    $row->index = $key;
+//  }
+//
+//  $view->result = $filteredResults;
+//  $view->total_rows = count($filteredResults);
+}
+
+/**
+ * Implements hook_views_post_render().
+ */
+function shop_order_views_post_render(ViewExecutable $view)
+{
+//  if ($view->id() == 'user_orders_rest') {
+//    $results = $view->result;
+//    $a = 1;
+//  }
+}

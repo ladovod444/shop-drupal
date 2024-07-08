@@ -36,9 +36,11 @@ class Lesson3NewsLazyBuilder {
   /**
    * Constructs a new Lesson3NewsLazyBuilder object.
    */
-  public function __construct(Lesson3NYTimesNews $lesson3_nytimes_news,
-                              PagerManager $pager,
-                              ConfigFactoryWrapper $config_factory) {
+  public function __construct(
+    Lesson3NYTimesNews $lesson3_nytimes_news,
+    PagerManager $pager,
+    ConfigFactoryWrapper $config_factory,
+  ) {
     $this->lesson3NytimesNews = $lesson3_nytimes_news;
     $this->pager = $pager;
     $this->configFactory = $config_factory;

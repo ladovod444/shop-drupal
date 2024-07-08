@@ -1,0 +1,4 @@
+services:
+  shop_order.mail:
+    class: Drupal\shop_order\ShopOrderMail
+    arguments: ['@logger.factory', '@plugin.manager.mail']
