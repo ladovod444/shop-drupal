@@ -1,0 +1,18 @@
+uuid: 4681c98b-7f9e-4cf0-9df7-a6086f1deb01
+langcode: ru
+status: true
+dependencies:
+  config:
+    - node.type.page
+id: node.page.created
+field_name: created
+entity_type: node
+bundle: page
+label: 'Создан в'
+description: 'Дата и время создания содержимого.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

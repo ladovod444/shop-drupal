@@ -1,0 +1,10 @@
+uuid: 28a7792f-9af1-4068-9788-5e61579a9d08
+langcode: ru
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: YWMv3Do9fsPFhylyFkOwcqcFP4jSU6DLRootOlgrC0M
+id: refresh_token
+label: 'Refresh token'
+description: 'The refresh token type.'
+locked: true

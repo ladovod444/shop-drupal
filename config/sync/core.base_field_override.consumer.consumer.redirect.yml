@@ -1,0 +1,18 @@
+uuid: 275c702e-9c69-44ea-bebf-602a2fbd13d7
+langcode: ru
+status: true
+dependencies:
+  module:
+    - consumers
+id: consumer.consumer.redirect
+field_name: redirect
+entity_type: consumer
+bundle: consumer
+label: 'URI перенаправления'
+description: 'The URI this client will redirect to when needed.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: uri

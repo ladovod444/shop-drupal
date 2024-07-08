@@ -1,0 +1,17 @@
+uuid: 857276f4-c83d-43ff-9eee-593d38438478
+langcode: ru
+status: true
+dependencies:
+  module:
+    - commerce_product
+  enforced:
+    module:
+      - commerce_cart
+      - commerce_product
+_core:
+  default_config_hash: xtrHHgI_SwA-1npf3GB0ntU65fMvm4mxImBtkbmZWSk
+id: commerce_product_variation.cart
+label: Корзина
+description: ''
+targetEntityType: commerce_product_variation
+cache: true

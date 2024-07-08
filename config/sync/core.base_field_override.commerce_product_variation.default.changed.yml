@@ -1,0 +1,18 @@
+uuid: 81ed95cb-a350-4b8a-b675-fd494bc62452
+langcode: ru
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_variation_type.default
+id: commerce_product_variation.default.changed
+field_name: changed
+entity_type: commerce_product_variation
+bundle: default
+label: Изменение
+description: 'The time when the variation was last edited.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

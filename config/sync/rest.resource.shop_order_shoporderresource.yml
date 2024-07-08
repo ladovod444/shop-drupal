@@ -1,0 +1,18 @@
+uuid: f70caeb1-296a-471b-8f87-180157ef3de8
+langcode: ru
+status: true
+dependencies:
+  module:
+    - serialization
+    - shop_order
+    - user
+id: shop_order_shoporderresource
+plugin_id: shop_order_shoporderresource
+granularity: resource
+configuration:
+  methods:
+    - POST
+  formats:
+    - json
+  authentication:
+    - cookie

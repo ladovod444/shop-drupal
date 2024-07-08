@@ -1,0 +1,14 @@
+uuid: ae35b2ef-9f18-4b01-95fa-8109e1321da5
+langcode: ru
+status: true
+dependencies:
+  config:
+    - user.role.oauth
+  module:
+    - user
+id: user_remove_role_action.oauth
+label: 'Удалить роль oauth из выбранных пользователей'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: oauth

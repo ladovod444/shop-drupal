@@ -1,0 +1,35 @@
+uuid: 69beb956-ae9e-41cf-a9cf-d97ee4311e83
+langcode: ru
+status: true
+dependencies:
+  config:
+    - filter.format.restricted_html
+    - rest.resource.shop_order_shoporderresource
+    - rest.resource.user_registration
+    - rest.resource.user_registration_rest
+  module:
+    - comment
+    - commerce_order
+    - commerce_product
+    - contact
+    - filter
+    - rest
+    - search
+    - system
+_core:
+  default_config_hash: 6WavjUYXIegP9AAg2zXGx54MWIVoomC3SZhNiqe-Dyk
+id: anonymous
+label: 'Анонимный пользователь'
+weight: 0
+is_admin: false
+permissions:
+  - 'access comments'
+  - 'access content'
+  - 'access site-wide contact form'
+  - 'restful post shop_order_shoporderresource'
+  - 'restful post user_registration'
+  - 'restful post user_registration_rest'
+  - 'search content'
+  - 'use text format restricted_html'
+  - 'view commerce_product'
+  - 'view own commerce_order'

@@ -1,0 +1,10 @@
+uuid: a5c1c13d-716c-4b4e-a893-358fee9905d2
+langcode: ru
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: Q2Ra3jfoIVk0f3SjxJX61byRQFVBAbpzYDQOiY-kno8
+id: main
+label: 'Основная навигация'
+description: 'Ссылки разделов сайта'
+locked: true

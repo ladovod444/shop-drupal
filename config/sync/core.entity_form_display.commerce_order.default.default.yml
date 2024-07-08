@@ -1,0 +1,50 @@
+uuid: c102847a-07fa-41e7-bde7-a4c4661fb3bb
+langcode: ru
+status: true
+dependencies:
+  config:
+    - commerce_order.commerce_order_type.default
+  module:
+    - commerce_order
+    - inline_entity_form
+_core:
+  default_config_hash: OxAaChovIat28naja81fSKWGZHYQHv6xrrmhnK-bXUI
+id: commerce_order.default.default
+targetEntityType: commerce_order
+bundle: default
+mode: default
+content:
+  adjustments:
+    type: commerce_adjustment_default
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  billing_profile:
+    type: commerce_billing_profile
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  order_items:
+    type: inline_entity_form_complex
+    weight: 1
+    region: content
+    settings:
+      form_mode: default
+      override_labels: true
+      label_singular: 'позиция заказа'
+      label_plural: 'позиции заказа'
+      allow_new: true
+      allow_existing: false
+      match_operator: CONTAINS
+      removed_reference: delete
+    third_party_settings: {  }
+hidden:
+  created: true
+  ip_address: true
+  mail: true
+  order_number: true
+  state: true
+  store_id: true
+  uid: true

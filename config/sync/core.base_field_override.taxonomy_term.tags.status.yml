@@ -1,0 +1,22 @@
+uuid: 61513b1e-0662-476b-84c6-88604b00a45f
+langcode: ru
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.tags
+id: taxonomy_term.tags.status
+field_name: status
+entity_type: taxonomy_term
+bundle: tags
+label: Опубликовано
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Вкл
+  off_label: Выкл
+field_type: boolean

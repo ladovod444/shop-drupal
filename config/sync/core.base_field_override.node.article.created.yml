@@ -1,0 +1,18 @@
+uuid: 37c04314-e50e-49fb-ad3e-64c964f77048
+langcode: ru
+status: true
+dependencies:
+  config:
+    - node.type.article
+id: node.article.created
+field_name: created
+entity_type: node
+bundle: article
+label: 'Создан в'
+description: 'Дата и время создания содержимого.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

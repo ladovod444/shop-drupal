@@ -1,0 +1,21 @@
+uuid: 41dce30d-fea9-438a-81de-86854d018c3d
+langcode: ru
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.tags
+  module:
+    - text
+id: taxonomy_term.tags.description
+field_name: description
+entity_type: taxonomy_term
+bundle: tags
+label: Описание
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

@@ -1,0 +1,18 @@
+uuid: 3f0f6ac5-1ced-4b26-86bc-ea8c775b6898
+langcode: ru
+status: true
+dependencies:
+  config:
+    - commerce_store.commerce_store_type.online
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: false
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: commerce_store.online
+target_entity_type_id: commerce_store
+target_bundle: online
+default_langcode: site_default
+language_alterable: false

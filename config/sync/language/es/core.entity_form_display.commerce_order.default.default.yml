@@ -1,0 +1,5 @@
+content:
+  order_items:
+    settings:
+      label_singular: 'línea de pedido'
+      label_plural: 'líneas de pedido'

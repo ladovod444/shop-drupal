@@ -1,0 +1,18 @@
+uuid: 2bc5d715-e071-4ced-87f6-e89bd336d33c
+langcode: ru
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_variation_type.default
+id: commerce_product_variation.default.title
+field_name: title
+entity_type: commerce_product_variation
+bundle: default
+label: Заголовок
+description: 'Название вариации.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

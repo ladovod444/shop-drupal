@@ -1,0 +1,18 @@
+uuid: a3fb8344-3a45-440a-aa67-e688c6e7e14c
+langcode: ru
+status: true
+dependencies:
+  module:
+    - serialization
+    - shop_order
+    - simple_oauth
+id: user_registration_rest
+plugin_id: user_registration_rest
+granularity: resource
+configuration:
+  methods:
+    - POST
+  formats:
+    - json
+  authentication:
+    - oauth2

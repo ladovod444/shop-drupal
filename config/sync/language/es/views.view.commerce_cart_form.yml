@@ -1,0 +1,28 @@
+display:
+  default:
+    display_title: Máster
+    display_options:
+      exposed_form:
+        options:
+          submit_button: Aplicar
+          reset_button_label: Restablecer
+          exposed_sorts_label: 'Ordenar por'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      fields:
+        purchased_entity:
+          separator: ', '
+        unit_price__number:
+          label: Precio
+          separator: ', '
+        edit_quantity:
+          label: Cantidad
+        remove_button:
+          label: Eliminar
+        total_price__number:
+          label: Total
+          separator: ', '
+      arguments:
+        order_id:
+          exception:
+            title: Todo(s)

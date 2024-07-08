@@ -1,0 +1,21 @@
+uuid: b12a9627-d983-4d8c-b2eb-9b1bc93e7d81
+langcode: ru
+status: true
+dependencies:
+  module:
+    - commerce_product
+id: commerce_product.field_mainid
+field_name: field_mainid
+entity_type: commerce_product
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

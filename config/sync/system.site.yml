@@ -1,0 +1,15 @@
+_core:
+  default_config_hash: VDJxTZtQR21qB4lvOq8zszJZLvLKrSPQpdn2E3T71Ww
+langcode: ru
+uuid: 7e99a51a-5393-4ecd-a723-7d9a7db4cd40
+name: 'Shop with react'
+mail: ladovod77@yandex.ru
+slogan: ''
+page:
+  403: ''
+  404: ''
+  front: /node/2
+admin_compact_mode: false
+weight_select_max: 100
+default_langcode: ru
+mail_notification: ''

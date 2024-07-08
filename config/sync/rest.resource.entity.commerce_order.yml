@@ -1,0 +1,18 @@
+uuid: d5edf35b-fc33-47e6-98a7-0053534d4453
+langcode: ru
+status: true
+dependencies:
+  module:
+    - commerce_order
+    - serialization
+    - user
+id: entity.commerce_order
+plugin_id: 'entity:commerce_order'
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - json
+  authentication:
+    - cookie

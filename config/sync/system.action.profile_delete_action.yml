@@ -1,0 +1,16 @@
+uuid: a2c03cd9-3601-4225-80fb-fb12079328dc
+langcode: ru
+status: true
+dependencies:
+  module:
+    - profile
+  enforced:
+    module:
+      - profile
+_core:
+  default_config_hash: eoobeznDDPWSXzEXh6a3AT21rMluXtseCPjsguEgHKs
+id: profile_delete_action
+label: 'Delete selected profile'
+type: profile
+plugin: 'entity:delete_action:profile'
+configuration: {  }

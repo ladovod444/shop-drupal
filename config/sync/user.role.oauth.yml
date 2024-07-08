@@ -1,0 +1,15 @@
+uuid: aa7629c1-9fe1-47f4-8d93-733d28d9c4ed
+langcode: ru
+status: true
+dependencies:
+  module:
+    - commerce_order
+id: oauth
+label: oauth
+weight: 4
+is_admin: null
+permissions:
+  - 'access user profiles'
+  - 'manage default commerce_order_item'
+  - 'view commerce_order'
+  - 'view user email addresses'

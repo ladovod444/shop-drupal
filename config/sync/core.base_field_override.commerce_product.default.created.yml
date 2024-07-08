@@ -1,0 +1,18 @@
+uuid: 6ed57c33-f158-4cc5-ba1d-faa07e05c9dc
+langcode: ru
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_type.default
+id: commerce_product.default.created
+field_name: created
+entity_type: commerce_product
+bundle: default
+label: Создано
+description: 'The time when the product was created.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

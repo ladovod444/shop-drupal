@@ -1,0 +1,19 @@
+uuid: 28f436c5-bce0-475a-b67f-d0907930c076
+langcode: ru
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_type.default
+    - field.storage.commerce_product.field_mainid
+id: commerce_product.default.field_mainid
+field_name: field_mainid
+entity_type: commerce_product
+bundle: default
+label: MainID
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

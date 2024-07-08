@@ -1,0 +1,18 @@
+uuid: ab1aad1f-1b0f-43ab-b7e5-a90cf4ce1fd1
+langcode: ru
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_type.default
+id: commerce_product.default.changed
+field_name: changed
+entity_type: commerce_product
+bundle: default
+label: Изменение
+description: 'The time when the product was last edited.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

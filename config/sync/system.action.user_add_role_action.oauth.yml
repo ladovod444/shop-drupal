@@ -1,0 +1,14 @@
+uuid: 92843c84-c796-4e7b-be88-b434ec39a579
+langcode: ru
+status: true
+dependencies:
+  config:
+    - user.role.oauth
+  module:
+    - user
+id: user_add_role_action.oauth
+label: 'Добавьте роль oauth выбранным пользователям'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: oauth

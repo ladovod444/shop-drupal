@@ -1,0 +1,16 @@
+uuid: 1d984039-16db-47d2-9023-0ed2cedf79bf
+langcode: ru
+status: true
+dependencies:
+  module:
+    - profile
+  enforced:
+    module:
+      - commerce_order
+_core:
+  default_config_hash: rNBHCP7hJFMjP_iDe9-0AsSfkGC98V6Lh_oeOwmLos8
+id: profile.admin
+label: Администратор
+description: ''
+targetEntityType: profile
+cache: true

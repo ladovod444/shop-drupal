@@ -1,0 +1,18 @@
+uuid: e9f7eac8-e16c-45d4-941f-5ae621d1e34b
+langcode: ru
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.tags
+id: taxonomy_term.tags.changed
+field_name: changed
+entity_type: taxonomy_term
+bundle: tags
+label: Изменение
+description: 'Время, когда этот термин был последний раз отредактирован.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

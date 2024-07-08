@@ -1,0 +1,23 @@
+label: 'Bloque de la cesta de compra'
+display:
+  default:
+    display_title: Máster
+    display_options:
+      exposed_form:
+        options:
+          submit_button: Aplicar
+          reset_button_label: Restablecer
+          exposed_sorts_label: 'Ordenar por'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      fields:
+        quantity:
+          separator: ', '
+        title:
+          separator: ', '
+        total_price__number:
+          separator: ', '
+      arguments:
+        order_id:
+          exception:
+            title: Todo(s)

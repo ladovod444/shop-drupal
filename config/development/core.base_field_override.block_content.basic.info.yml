@@ -1,0 +1,18 @@
+uuid: fe678c7b-3a27-4f34-93ca-df8fd1821c63
+langcode: ru
+status: true
+dependencies:
+  config:
+    - block_content.type.basic
+id: block_content.basic.info
+field_name: info
+entity_type: block_content
+bundle: basic
+label: 'Описание блока'
+description: 'Краткое описание вашего блока.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

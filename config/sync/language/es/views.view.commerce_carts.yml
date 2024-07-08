@@ -1,0 +1,49 @@
+display:
+  default:
+    display_title: Máster
+    display_options:
+      exposed_form:
+        options:
+          submit_button: Filtro
+          reset_button_label: Restablecer
+          exposed_sorts_label: 'Ordenar por'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      pager:
+        options:
+          expose:
+            items_per_page_label: 'Elementos por página'
+            items_per_page_options_all_label: '- Todo -'
+            offset_label: Desplazamiento
+          tags:
+            previous: '‹ anterior'
+            next: 'siguiente ›'
+            first: '« primero'
+            last: 'último »'
+      fields:
+        type:
+          label: Tipo
+          separator: ', '
+        store_id:
+          label: Tienda
+          separator: ', '
+        uid:
+          label: Cliente
+          separator: ', '
+        mail:
+          label: 'Correo electrónico'
+          separator: ', '
+        total_price__number:
+          label: Total
+          separator: ', '
+        changed:
+          label: Actualizado
+          separator: ', '
+        operations:
+          label: Operaciones
+      filters:
+        type:
+          expose:
+            label: Tipo
+  page_1:
+    display_title: Página

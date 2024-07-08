@@ -1,0 +1,13 @@
+uuid: ee3b23b7-1039-45a5-90f7-87cb2fe55442
+langcode: ru
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: KgGJDZFpMaz_8bTv6fN1bXS3Qi5LWmRJI9R53kEGsNQ
+id: node.teaser
+label: Анонс
+description: ''
+targetEntityType: node
+cache: true

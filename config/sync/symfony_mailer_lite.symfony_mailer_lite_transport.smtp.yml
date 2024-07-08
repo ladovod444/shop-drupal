@@ -1,0 +1,18 @@
+uuid: fbfea837-3c6b-4e9d-b700-537c92141547
+langcode: ru
+status: true
+dependencies: {  }
+id: smtp
+label: SMTP
+plugin: smtp
+configuration:
+  user: ladovod77
+  pass: urjyltinkdrsgxnn
+  host: smtp.yandex.ru
+  port: 465
+  query:
+    verify_peer: true
+    local_domain: ''
+    restart_threshold: null
+    restart_threshold_sleep: null
+    ping_threshold: null
