@@ -244,7 +244,7 @@ final class ShopOrderResource extends ResourceBase {
     $store = $this->entityTypeManager
       ->getStorage('commerce_store')
       ->load($storeId);
-    
+
     $cart = $cart_provider->createCart('default', $store);
 
     // Set order to order "state".

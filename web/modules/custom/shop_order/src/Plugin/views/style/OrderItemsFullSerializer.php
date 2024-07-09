@@ -124,6 +124,7 @@ class OrderItemsFullSerializer extends Serializer {
       foreach ($order_items as $order_item) {
         $order_item = OrderItem::load($order_item['target_id']);
         $order_items_full[] = [
+          'oid' => $order_item->id(),
           'title' => $order_item->getTitle(),
           'quantity' => $order_item->getQuantity(),
           'price' => $order_item->getUnitPrice()->toArray(),
