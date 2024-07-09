@@ -170,6 +170,39 @@ final class ShopOrderResource extends ResourceBase {
     // $email = $query->get('email'); //
     $uid = $data['user_uid'];
 
+    // If user is anonymous and need to generate login info, then create new user.
+    if (!$uid) {
+      // Check if user exists by email.
+      $mail = $data['mail'];
+      $ids = \Drupal::entityQuery('user')
+        ->condition('mail', $mail)
+        ->accessCheck(FALSE)
+        ->execute();
+
+      if (empty($ids)) {
+        //$name = $client_name;
+        $user = User::create();
+        //$pass = map_custom_generate_pass();
+        $pass = 'test'; // TODO replace with OTL Link or complicated password
+        $user->setPassword($pass);
+        $user->enforceIsNew();
+        $user->setEmail($mail);
+
+        // Name as email.
+        $name = $mail;
+        $user->setUsername($name); //This username must be unique and accept only a-Z,0-9, - _ @ .
+
+        $user->activate();
+        $user->save();
+        $uid = $user->id();
+
+        // TODO Send mail with ONT Link ???
+      }
+      else {
+        $uid = reset($ids);
+      }
+    }
+
     // $order = $query->get('order');
     // $params = Json::decode($request->getContent());
     // @todo check what was received from client
@@ -180,29 +213,6 @@ final class ShopOrderResource extends ResourceBase {
     //      ],
     //      200);
     /*
-    // If user is anonymous and need to generate login info, then create new user.
-    if ($generate_login_info && $this->currentUser->isAnonymous()) {
-    // @todo create user
-    // SEE map_custom_entity_insert
-
-    // Check if user exists by email.
-    $ids = \Drupal::entityQuery('user')
-    ->condition('mail', $email)
-    ->execute();
-
-    //if (empty($ids)) {
-    //$name = $client_name;
-    $user = User::create();
-
-    $pass = map_custom_generate_pass();
-    $user->setPassword($pass);
-    $user->enforceIsNew();
-    $user->setEmail($email);
-    $user->setUsername($name); //This username must be unique and accept only a-Z,0-9, - _ @ .
-    //$user->addRole('vendor'); // Vendor role
-    $user->status = 1;
-    $user->save();
-    $uid = $user->id();
 
     // send email after user creation
     //$label = 'Order delivery and account creation';
@@ -226,10 +236,6 @@ final class ShopOrderResource extends ResourceBase {
     }
      */
 
-    //\Drupal::logger()
-
-
-
     // Getting data from cart.
     $cart_manager = $this->cartManager;
     $cart_provider = $this->cartProvider;
@@ -238,22 +244,7 @@ final class ShopOrderResource extends ResourceBase {
     $store = $this->entityTypeManager
       ->getStorage('commerce_store')
       ->load($storeId);
-
-    // If ($current_user->isAnonymous()) {
-    //      //$cart_provider = \Drupal::service('commerce_cart.cart_provider');
-    //      $cart = $cart_provider->getCart('default');
-    //
-    //      if (!$cart) {
-    //        $cart = $cart_provider->createCart('default');
-    //      }
-    //    }
-    //    else {
-    //      $cart = $cart_provider->getCart('default', $store);
-    //
-    //      if (!$cart) {
-    //        $cart = $cart_provider->createCart('default', $store);
-    //      }
-    //    }.
+    
     $cart = $cart_provider->createCart('default', $store);
 
     // Set order to order "state".
