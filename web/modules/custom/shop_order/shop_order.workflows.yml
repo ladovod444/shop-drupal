@@ -1,0 +1,26 @@
+default:
+  id: default
+  label: Commerce order
+  group: commerce_order
+  states:
+    new:
+      label: New
+    fulfillment:
+      label: Fulfilment
+    completed:
+      label: Completed
+    canceled:
+      label: Canceled
+  transitions:
+    create:
+      label: Create
+      from: [new]
+      to: fulfillment
+    fulfill:
+      label: Fulfill
+      from: [fulfillment]
+      to: completed
+    cancel:
+      label: Cancel
+      from: [new, fulfillment]
+      to: canceled

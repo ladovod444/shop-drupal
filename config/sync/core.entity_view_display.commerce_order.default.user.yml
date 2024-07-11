@@ -5,6 +5,7 @@ dependencies:
   config:
     - commerce_order.commerce_order_type.default
     - core.entity_view_mode.commerce_order.user
+    - field.field.commerce_order.default.field_state
   module:
     - commerce_order
     - entity_reference_revisions
@@ -102,6 +103,7 @@ content:
 hidden:
   balance: true
   changed: true
+  field_state: true
   ip_address: true
   store_id: true
   total_paid: true

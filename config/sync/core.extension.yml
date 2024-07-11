@@ -13,6 +13,7 @@ module:
   commerce: 0
   commerce_api: 0
   commerce_cart: 0
+  commerce_checkout: 0
   commerce_number_pattern: 0
   commerce_order: 0
   commerce_price: 0

@@ -33,6 +33,7 @@
         "drupal/rest_api_authentication": "^2.0",
         "drupal/restui": "^1.21",
         "drupal/simple_oauth": "^5.2",
+        "drupal/state_machine": "^1.11",
         "drupal/symfony_mailer_lite": "^1.0",
         "drush/drush": "^12.5"
     },

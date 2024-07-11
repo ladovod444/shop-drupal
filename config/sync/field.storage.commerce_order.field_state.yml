@@ -1,0 +1,19 @@
+uuid: a25e2c2a-bf40-4e5e-92a9-d8946eb1a137
+langcode: ru
+status: true
+dependencies:
+  module:
+    - commerce_order
+    - state_machine
+id: commerce_order.field_state
+field_name: field_state
+entity_type: commerce_order
+type: state
+settings: {  }
+module: state_machine
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

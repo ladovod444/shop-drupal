@@ -9,6 +9,7 @@ dependencies:
     - rest.resource.user_registration_rest
   module:
     - comment
+    - commerce_checkout
     - commerce_order
     - commerce_product
     - contact
@@ -23,9 +24,11 @@ label: 'Анонимный пользователь'
 weight: 0
 is_admin: false
 permissions:
+  - 'access checkout'
   - 'access comments'
   - 'access content'
   - 'access site-wide contact form'
+  - 'restful patch shop_order_shoporderresource'
   - 'restful post shop_order_shoporderresource'
   - 'restful post user_registration'
   - 'restful post user_registration_rest'

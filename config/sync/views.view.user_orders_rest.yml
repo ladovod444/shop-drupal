@@ -3,6 +3,7 @@ langcode: ru
 status: true
 dependencies:
   config:
+    - field.storage.commerce_order.field_state
     - user.role.oauth
   module:
     - commerce_order
@@ -1858,6 +1859,68 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+        field_state:
+          id: field_state
+          table: commerce_order__field_state
+          field: field_state
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
       access:
         type: role
         options:
@@ -1880,13 +1943,16 @@ display:
               alias: ''
               raw_output: true
             state:
-              alias: ''
+              alias: old_state
               raw_output: true
             total_price__number_1:
               alias: total_price
               raw_output: false
             created:
               alias: ''
+              raw_output: false
+            field_state:
+              alias: state
               raw_output: false
       defaults:
         access: false
@@ -1904,4 +1970,5 @@ display:
         - request_format
         - url
         - user.roles
-      tags: {  }
+      tags:
+        - 'config:field.storage.commerce_order.field_state'

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\shop_order\Plugin\rest\resource;
 
 use Drupal\commerce_cart\CartProvider;
+use Drupal\commerce_order\Entity\Order;
 use Drupal\commerce_order\Entity\OrderItem;
 use Drupal\commerce_price\Price;
 use Drupal\Core\Messenger\MessengerTrait;
@@ -285,6 +286,7 @@ final class ShopOrderResource extends ResourceBase {
       $cart->addItem($order_item);
     }
 
+    $cart->field_state = 'new';
     $cart->save();
     $this->shopOrderMail->send(self::ORDER_LABEL, $cart_id, $mail, $data['order'], $cart->getTotalPrice()->toArray(), '', '');
 
@@ -294,6 +296,30 @@ final class ShopOrderResource extends ResourceBase {
         'uuid' => $cart->uuid(),
         // 'message' => $message
       ], 200);
+  }
+
+  /**
+   * Responds to GET requests.
+   *
+   * @param string $payload
+   *
+   * @return \Drupal\rest\ModifiedResourceResponse
+   *   The HTTP response object.
+   *
+   * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+   *   Throws exception expected.
+   */
+  public function patch($data) {
+
+    $order_id = $data['order_id'];
+    $order = Order::load($order_id);
+    $order->field_state = 'cancelled';
+    $order->save();
+
+    return new ModifiedResourceResponse([
+      'data' => $data,
+      // 'message' => $message
+    ], 200);
   }
 
 }

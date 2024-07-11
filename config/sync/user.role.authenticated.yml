@@ -7,6 +7,7 @@ dependencies:
     - rest.resource.user_registration_rest
   module:
     - comment
+    - commerce_checkout
     - commerce_order
     - commerce_product
     - contact
@@ -23,6 +24,7 @@ label: 'Аутентифицированный пользователь'
 weight: 1
 is_admin: false
 permissions:
+  - 'access checkout'
   - 'access comments'
   - 'access content'
   - 'access shortcuts'
