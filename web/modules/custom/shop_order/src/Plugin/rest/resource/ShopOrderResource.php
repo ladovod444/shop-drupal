@@ -313,7 +313,7 @@ final class ShopOrderResource extends ResourceBase {
 
     $order_id = $data['order_id'];
     $order = Order::load($order_id);
-    $order->field_state = 'cancelled';
+    $order->field_state = 'Canceled';
     $order->save();
 
     return new ModifiedResourceResponse([
