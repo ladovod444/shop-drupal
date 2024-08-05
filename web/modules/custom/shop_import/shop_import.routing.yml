@@ -5,3 +5,19 @@ shop_import.fortine_setting:
     _form: 'Drupal\shop_import\Form\FortineSettingForm'
   requirements:
     _permission: 'administer site configuration'
+
+shop_import.example:
+  path: '/shop-import/example'
+  defaults:
+    _title: 'Example'
+    _controller: '\Drupal\shop_import\Controller\ShopImportController'
+  requirements:
+    _permission: 'access content'
+
+shop_import.process_products:
+  path: '/admin/shop-import/process-products'
+  defaults:
+    _title: 'Process Products'
+    _form: 'Drupal\shop_import\Form\ProcessProductsBatchForm'
+  requirements:
+    _permission: 'administer site configuration'

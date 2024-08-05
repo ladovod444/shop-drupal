@@ -70,56 +70,67 @@ final class ShopImport {
    */
   public function createProduct(array $data_item) {
 
-    $product_data = [
-      'mainId' => $data_item["mainId"],
-      'title' => $data_item["displayName"],
-      'displayDescription' => $data_item["displayDescription"],
-      'offerId' => $data_item["offerId"],
-      'price' => $data_item["price"],
-      // 'publication_date' => strtotime($data_item["pub_date"]),
-    ];
+    $query = $this->entityTypeManager->getStorage('commerce_product')->getQuery();
+    $query->condition('status', 1)
+      ->condition('type', 'default')
+      ->condition('field_mainid', $data_item["mainId"]);
+    $query->accessCheck(FALSE);
+    $ids = $query->execute();
 
-    // Image save example.
-    $field_product_image = [];
-    foreach ($data_item["displayAssets"] as $key => $image_data_item) {
-      if (!empty($image_data_item["url"])) {
-        // $url = $api_url . '/' . $image_data_item["url"];
-        $url = $image_data_item["url"];
-        $data = file_get_contents($url);
-        $file_name = basename($url);
+    $entities = \Drupal::entityTypeManager()->getStorage('commerce_product')->loadMultiple($ids);
 
-        // Get field config to get settings File directory.
-        $field_config = FieldConfig::loadByName('commerce_product', 'default',
-          'field_product_image');
-        $settings = $field_config->getSettings();
-        $destination = trim($settings['file_directory'], '/');
-        $destination = PlainTextOutput::renderFromHtml($this->token->replace($destination));
-        $file_directory = $settings['uri_scheme'] . '://' . $destination;
+    if (!count($entities)) {
+      $product_data = [
+        'mainId' => $data_item["mainId"],
+        'title' => $data_item["displayName"],
+        'displayDescription' => $data_item["displayDescription"],
+        'offerId' => $data_item["offerId"],
+        'price' => $data_item["price"],
+        // 'publication_date' => strtotime($data_item["pub_date"]),
+      ];
 
-        $this->fileSystem->prepareDirectory($file_directory,
-          FileSystemInterface::CREATE_DIRECTORY);
-        // $file = file_save_data($data, $file_directory . '/' . $file_name,
-        //          FileSystemInterface::EXISTS_REPLACE);
-        $file = $this->fileRepository->writeData($data, $file_directory . '/' . $file_name,
-          FileSystemInterface::EXISTS_REPLACE);
+      // Image save example.
+      $field_product_image = [];
+      foreach ($data_item["displayAssets"] as $key => $image_data_item) {
+        if (!empty($image_data_item["url"])) {
+          // $url = $api_url . '/' . $image_data_item["url"];
+          $url = $image_data_item["url"];
+          $data = file_get_contents($url);
+          $file_name = basename($url);
 
-        // Return $save ? file_save_data($data, NodeExport::getFileUri($format), FileSystemInterface::EXISTS_REPLACE) : $data;
-        // return $save ? \Drupal::service('file.repository')->writeData($data, NodeExport::getFileUri($format), FileSystemInterface::EXISTS_REPLACE) : $data;
-        //        $field_product_image[] = [
-        //          'target_id' => $file->id(),
-        //          //'alt' => $data_item["headline"]["main"],
-        //        ];.
-        $field_product_image = [
-          'target_id' => $file->id(),
-          // 'alt' => $data_item["headline"]["main"],
-        ];
+          // Get field config to get settings File directory.
+          $field_config = FieldConfig::loadByName('commerce_product', 'default',
+            'field_product_image');
+          $settings = $field_config->getSettings();
+          $destination = trim($settings['file_directory'], '/');
+          $destination = PlainTextOutput::renderFromHtml($this->token->replace($destination));
+          $file_directory = $settings['uri_scheme'] . '://' . $destination;
+
+          $this->fileSystem->prepareDirectory($file_directory,
+            FileSystemInterface::CREATE_DIRECTORY);
+          // $file = file_save_data($data, $file_directory . '/' . $file_name,
+          //          FileSystemInterface::EXISTS_REPLACE);
+          $file = $this->fileRepository->writeData($data, $file_directory . '/' . $file_name,
+            FileSystemInterface::EXISTS_REPLACE);
+
+          // Return $save ? file_save_data($data, NodeExport::getFileUri($format), FileSystemInterface::EXISTS_REPLACE) : $data;
+          // return $save ? \Drupal::service('file.repository')->writeData($data, NodeExport::getFileUri($format), FileSystemInterface::EXISTS_REPLACE) : $data;
+          //        $field_product_image[] = [
+          //          'target_id' => $file->id(),
+          //          //'alt' => $data_item["headline"]["main"],
+          //        ];.
+          $field_product_image = [
+            'target_id' => $file->id(),
+            // 'alt' => $data_item["headline"]["main"],
+          ];
+        }
       }
-    }
-    if ($field_product_image) {
-      $product_data['field_product_image'] = $field_product_image;
-    }
+      if ($field_product_image) {
+        $product_data['field_product_image'] = $field_product_image;
+      }
 
-    $this->createNewProduct($product_data);
+      $this->createNewProduct($product_data);
+    }
   }
 
   /**
