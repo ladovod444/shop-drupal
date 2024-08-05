@@ -1,0 +1,10 @@
+.goods {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 1rem;
+}
+
+.goods .card {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
